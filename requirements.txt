@@ -1,0 +1,19 @@
+# Core numerical and data libraries
+numpy>=1.26
+pandas>=2.2
+
+# Optimization
+cvxpy>=1.4
+scs>=3.2
+
+# Market data
+yfinance>=0.2.40
+
+# Plotting
+matplotlib>=3.8
+
+# Configuration files
+PyYAML>=6.0
+
+# Notebook exploration
+ipykernel>=6.29
