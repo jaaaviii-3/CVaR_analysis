@@ -1,0 +1,58 @@
+# Default configuration for the CVaR portfolio analysis project.
+# The goal of this file is to keep experiment settings outside the Python code.
+
+project:
+  name: CVaR Analysis
+  description: Portfolio optimization focused on tail-risk reduction using CVaR.
+
+market_data:
+  provider: yfinance
+  tickers:
+    - SPY   # Broad US equity market
+    - QQQ   # US technology-heavy equity exposure
+    - TLT   # Long-term US Treasury bonds
+    - GLD   # Gold exposure
+    - EEM   # Emerging markets equities
+    - VNQ   # US real estate exposure
+  start_date: '2018-01-01'
+  end_date: null        # null means use the latest available data
+  auto_adjust: true
+
+returns:
+  frequency: daily      # daily or monthly
+  train_ratio: 0.70     # 70 percent train, 30 percent test
+
+risk_model:
+  alpha: 0.95           # CVaR confidence level; 0.95 means worst 5 percent scenarios
+  objective: minimize_cvar
+
+constraints:
+  long_only: true       # no short positions
+  fully_invested: true  # portfolio weights must sum to 1
+  max_weight: 0.45      # maximum allocation per asset
+
+optimizer:
+  solver: SCS
+  verbose: false
+
+benchmarks:
+  equal_weight:
+    enabled: true
+  aggressive:
+    enabled: true
+    weights:
+      SPY: 0.30
+      QQQ: 0.45
+      TLT: 0.00
+      GLD: 0.00
+      EEM: 0.15
+      VNQ: 0.10
+
+outputs:
+  save_tables: true
+  save_figures: true
+  tables_dir: outputs/tables
+  figures_dir: outputs/figures
+  equity_curve_file: outputs/tables/equity_curves.csv
+  metrics_file: outputs/tables/portfolio_metrics.csv
+  weights_file: outputs/tables/portfolio_weights.csv
